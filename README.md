@@ -6,4 +6,8 @@
 
 ```
 g++ src/*.* -I include/ -o bin/hotel
+
+or
+
+make
 ```
