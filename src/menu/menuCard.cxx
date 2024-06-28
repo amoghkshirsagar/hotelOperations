@@ -3,6 +3,7 @@
 #include "menuItem.hxx"
 #include "config.hxx"
 #include "json.hpp"
+#include <math.h>
 
 using namespace std;
 using json = nlohmann::json;
@@ -14,6 +15,15 @@ namespace HOTEL
         MenuCard::MenuCard()
         {
             cout << "Creating MenuCard...";
+            json jMenuCard = HOTEL::CONFIG::readConfig("config/menuCard.json");
+            for (auto &elem : jMenuCard)
+            {
+                HOTEL::MENU::FoodItem *item = HOTEL::MENU::createFood();
+                item->name = elem["name"];
+                item->type = elem["type"];
+                item->price = stod(HOTEL::UTILS::getPrecisionValue(stod(elem["price"].get<json::string_t>()), 2));
+                this->items.push_back(*item);
+            }
         }
         void MenuCard::addItem(HOTEL::MENU::FoodItem item)
         {
@@ -57,7 +67,7 @@ namespace HOTEL
         {
             for (size_t i = 0; i < this->items.size(); i++)
             {
-                cout << (i + 1) << " | " << &(this->items[i]) << " | ";
+                cout << (i + 1) << " | ";
                 this->items[i].printFood();
             }
         }
@@ -67,10 +77,11 @@ namespace HOTEL
             json menuCardJson = {};
             for (size_t i = 0; i < this->items.size(); i++)
             {
+                cout << HOTEL::UTILS::getPrecisionValue(this->items[i].price, 2) << endl;
                 menuCardJson[i] = {
                     {"name", this->items[i].name},
                     {"type", this->items[i].type},
-                    {"price", this->items[i].price}};
+                    {"price", HOTEL::UTILS::getPrecisionValue(this->items[i].price, 2)}};
             }
 
             return menuCardJson;
@@ -100,7 +111,7 @@ namespace HOTEL
             menuCard->addItem(*item);
         }
 
-        void MenuCard::menuChoices()
+        void menuChoices(MenuCard *menuCard)
         {
             bool cont = true;
             int inChoice;
@@ -108,7 +119,7 @@ namespace HOTEL
             {
                 system("clear");
                 std::cout << endl;
-                std::cout << "---------------------------------------------" << endl;
+                std::cout << "--------------------addItemToOrder-------------------------" << endl;
                 std::cout << "__               Menu Card                 __" << endl;
                 std::cout << "---------------------------------------------" << endl;
                 std::cout << "1. add item" << endl;
@@ -123,23 +134,23 @@ namespace HOTEL
                 switch (inChoice)
                 {
                 case 1:
-                    addItemToMenuCard(this);
+                    addItemToMenuCard(menuCard);
                     break;
                 case 2:
                     // code block
-                    editItemMenuCard(this);
+                    editItemMenuCard(menuCard);
                     break;
                 case 3:
                     // code block
-                    this->deleteItem();
+                    menuCard->deleteItem();
                     break;
                 case 4:
                     // code block
-                    listMenuCardItems(this);
+                    listMenuCardItems(menuCard);
                     break;
                 case 5:
                     // code block
-                    writeMenuCard(this, "config/menuCard.json");
+                    writeMenuCard(menuCard, "config/menuCard.json");
                     break;
                 case 0:
                     // code block

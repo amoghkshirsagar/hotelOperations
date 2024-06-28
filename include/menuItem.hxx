@@ -1,7 +1,6 @@
 #ifndef DEFINE_menuItem
 #define DEFINE_menuItem
 #include <iostream>
-#include "config.hxx"
 
 using namespace std;
 
@@ -19,7 +18,7 @@ namespace HOTEL
             bool isInitialized = false;
             string name;
             string type;
-            float price;
+            double price;
         };
         HOTEL::MENU::FoodItem *createFood();
     }

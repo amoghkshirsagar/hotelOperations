@@ -15,7 +15,7 @@ namespace HOTEL
         }
         void FoodItem::printFood()
         {
-            cout << "   " << name << "   " << type << "   " << price << price << endl;
+            cout << "   " << name << "   " << type << "   " << price << endl;
         }
 
         void FoodItem::deleteFood()

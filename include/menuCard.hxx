@@ -2,8 +2,8 @@
 #define DEFINE_menuCard
 #include <iostream>
 #include <vector>
-#include "menuItem.hxx"
 #include "json.hpp"
+#include "menuItem.hxx"
 
 using namespace std;
 using json = nlohmann::json;
@@ -29,11 +29,11 @@ namespace HOTEL
             // HOTEL::MENU::FoodItem *getItemByName(string index);
             void deleteItem();
             void deleteMenuItemAtIndex(int index);
-            void menuChoices();
         };
         void addItemToMenuCard(MenuCard *menuCard);
         void listMenuCardItems(MenuCard *menuCard);
-        void writeMenuCard(HOTEL::MENUCARD::MenuCard *menuCard, std::string name);
+        void writeMenuCard(MenuCard *menuCard, std::string name);
+        void menuChoices(MenuCard *menuCard);
     }
 }
 #endif
